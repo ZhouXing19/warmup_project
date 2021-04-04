@@ -5,10 +5,11 @@ from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Point, Pose, Quaternion, Twist, Vector3
 
 class DriveSquare(object):
-    def __init__(self):
+    def __init__(self, loop_rate = 1):
         rospy.init_node('drive_square')
         rospy.sleep(2) # sleep for 2 seconds to have the system inited
         self.speed_pub = rospy.Publisher('/cmd_vel', Twist, queue_size = 1)
+        self.loop_rate = loop_rate
     
     def move_forward(self, duration, f_speed):
         forward_cmd = Twist()
@@ -23,7 +24,7 @@ class DriveSquare(object):
         start_time = rospy.Time.now()
 
         # rospy.Rate specifies the rate of the loop (in this case 2 Hz)
-        r = rospy.Rate(1)
+        r = rospy.Rate(self.loop_rate)
         
         while rospy.Time.now() - start_time < rospy.Duration(duration) and not rospy.is_shutdown():
             self.speed_pub.publish(forward_cmd)
@@ -42,7 +43,7 @@ class DriveSquare(object):
 
         start_time = rospy.Time.now()
 
-        r = rospy.Rate(1)
+        r = rospy.Rate(self.loop_rate)
         while rospy.Time.now() - start_time < rospy.Duration(duration) and not rospy.is_shutdown():
             self.speed_pub.publish(turn_cmd)
             r.sleep()
@@ -53,10 +54,10 @@ class DriveSquare(object):
 
 if __name__ == "__main__":
     try:
-        node = DriveSquare()
+        node = DriveSquare(2)
         for _ in range(4):
             node.move_forward(2, 0.5)
-            node.turn_to(3, 0.5)
+            node.turn_to(3, 0.502)
         # node.move_forward(2)
         # node.move_forward(3)
     except rospy.ROSInterruptException:
