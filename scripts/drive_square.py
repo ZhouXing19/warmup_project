@@ -12,6 +12,8 @@ class DriveSquare(object):
         self.loop_rate = loop_rate
     
     def move_forward(self, duration, f_speed):
+
+        # Make sure the robot only move in the plane in one direction, with given speed
         forward_cmd = Twist()
         forward_cmd.linear.x = f_speed
         forward_cmd.linear.y = 0.0
@@ -36,9 +38,12 @@ class DriveSquare(object):
         print("forward")
     
     def turn_to(self, duration, a_speed):
+
+        # Make sure the robot JUST turning head, without any linear speed
         turn_cmd = Twist()
         turn_cmd.angular.z = a_speed
 
+        # allow the publisher enough time to set up before publishing the first msg
         rospy.sleep(1)
 
         start_time = rospy.Time.now()
@@ -48,6 +53,7 @@ class DriveSquare(object):
             self.speed_pub.publish(turn_cmd)
             r.sleep()
         
+        # At the end, top the robot
         self.speed_pub.publish(Twist())
         rospy.sleep(2)
         print("turn")
@@ -58,7 +64,5 @@ if __name__ == "__main__":
         for _ in range(4):
             node.move_forward(2, 0.5)
             node.turn_to(3, 0.502)
-        # node.move_forward(2)
-        # node.move_forward(3)
     except rospy.ROSInterruptException:
         pass
