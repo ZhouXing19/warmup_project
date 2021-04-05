@@ -8,11 +8,11 @@ Last Edit: Apr 4, 2021
 ## Driving in a Square
 
 ### Introduction
-For this part, [./scripts/drive_square.py](./scripts/drive_square.py) controls a turtlebot3 model to run through a square path with side length 1. We use a timing strategy to make sure the robot move forward for a fixed duration for each side of the square, or change direction with a fixed angular speed and duration as well. 
+For this part, [./scripts/drive_square.py](./scripts/drive_square.py) controls a turtlebot3 model to run through a square path with side length 1. We use a timing strategy to make sure that the robot moves forward for a fixed duration for each side of the square, or changes direction with a fixed angular speed and duration as well. 
 
 ### Code Explanation
 
-We wrote up the `drive_square.py` with OOP, specifically, to a `DriveSquare` object. We encapsulate two actions -- move forward, and change direction -- into two methods `self.move_forward` and `self.turn_to`. And finally, use a `self.move` method to accomplish a pipeline of these two actions. 
+We wrote up the `drive_square.py` with OOP, specifically, to a `DriveSquare` object. We encapsulate two actions -- _move forward_, and _change direction_ -- into two methods `self.move_forward` and `self.turn_to`. And finally, use a `self.move` method to accomplish a pipeline of these two actions. 
 
 For accurate tuning, we allow customization of the loop rate in each action, with a `self.loop_rate` attribute in `DriveSquare`'s `init` function. 
 
